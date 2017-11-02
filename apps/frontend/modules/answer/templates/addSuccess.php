@@ -1,0 +1,1 @@
+<?php include_partial('question/answer', array('answer' => $answer)) ?>

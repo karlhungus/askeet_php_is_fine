@@ -3,3 +3,5 @@
 .viminfo
 cache/*
 .vim
+log/*
+.mysql_history

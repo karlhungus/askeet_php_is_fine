@@ -1,16 +1,87 @@
-# You can find more information about this file on the symfony website:
-# http://www.symfony-project.org/reference/1_4/en/10-Routing
+api_question:
+  url:   /api/question/:stripped_title
+  param: { module: api, action: question }
+
+popular_tags:
+  url:   /popular_tags
+  param: { module: tag, action: popular }
+
+tag_add:
+  url:   /tag_add
+  param: { module: tag, action: add }
+
+tag_autocomplete:
+  url:   /tag_autocomplete
+  param: { module: tag, action: autocomplete }
+
+tag:
+  url:   /tag/:tag/:page
+  param: { module: tag, action: show, page: 1 }
+
+tag:
+  url:   /tag/:tag
+  param: { module: tag, action: show }
+
+user_require_password:
+  url:   /password_request
+  param: { module: user, action: passwordRequest }
+
+# question
+question:
+  url:   /question/:stripped_title
+  param: { module: question, action: show }
+
+popular_questions:
+  url:   /index/:page
+  param: { module: question, action: list, page: 1 }
+
+recent_questions:
+  url:   /recent/:page
+  param: { module: question, action: recent, page: 1 }
+
+add_question:
+  url:   /add_question
+  param: { module: question, action: add }
+
+# answer
+recent_answers:
+  url:   /recent/answers/:page
+  param: { module: answer, action: recent, page: 1 }
+
+add_answer:
+  url:   /add_anwser
+  param: { module: answer, action: add }
+
+# user
+login:
+  url:   /login
+  param: { module: user, action: login }
+
+logout:
+  url:   /logout
+  param: { module: user, action: logout }
+
+user_profile:
+  url:   /user/:nickname
+  param: { module: user, action: show }
 
 # default rules
 homepage:
   url:   /
-  param: { module: default, action: index }
+  param: { module: question, action: list }
 
-# generic rules
-# please, remove them by adding more specific rules
+default_symfony:
+  url:   /symfony/:action/*
+  param: { module: default }
+
 default_index:
   url:   /:module
   param: { action: index }
 
 default:
   url:   /:module/:action/*
+
+# feeds
+feed_popular_questions:
+  url:   /feed/popular
+  param: { module: feed, action: popular }
