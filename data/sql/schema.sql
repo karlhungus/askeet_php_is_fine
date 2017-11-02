@@ -1,0 +1,14 @@
+CREATE TABLE ask_answer (id BIGINT AUTO_INCREMENT, question_id BIGINT, user_id BIGINT, body TEXT, html_body TEXT, relevancy_up BIGINT DEFAULT 0, relevancy_down BIGINT DEFAULT 0, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX question_id_idx (question_id), INDEX user_id_idx (user_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE ask_interest (id BIGINT AUTO_INCREMENT, question_id BIGINT, user_id BIGINT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX question_id_idx (question_id), INDEX user_id_idx (user_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE ask_question (id BIGINT AUTO_INCREMENT, user_id BIGINT, title VARCHAR(50), stripped_title VARCHAR(50) UNIQUE, body TEXT, html_body TEXT, interested_users BIGINT DEFAULT 0, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX user_id_idx (user_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE ask_question_tag (id BIGINT AUTO_INCREMENT, question_id BIGINT, user_id BIGINT, tag VARCHAR(100), normalized_tag VARCHAR(50), created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX question_id_idx (question_id), INDEX user_id_idx (user_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE ask_relevancy (id BIGINT AUTO_INCREMENT, answer_id BIGINT, user_id BIGINT, score BIGINT, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX answer_id_idx (answer_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE ask_user (id BIGINT AUTO_INCREMENT, nickname VARCHAR(30), first_name VARCHAR(50), last_name VARCHAR(50), email VARCHAR(100), sha1_password VARCHAR(40), salt VARCHAR(32), created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) ENGINE = INNODB;
+ALTER TABLE ask_answer ADD CONSTRAINT ask_answer_user_id_ask_user_id FOREIGN KEY (user_id) REFERENCES ask_user(id);
+ALTER TABLE ask_answer ADD CONSTRAINT ask_answer_question_id_ask_question_id FOREIGN KEY (question_id) REFERENCES ask_question(id);
+ALTER TABLE ask_interest ADD CONSTRAINT ask_interest_user_id_ask_user_id FOREIGN KEY (user_id) REFERENCES ask_user(id);
+ALTER TABLE ask_interest ADD CONSTRAINT ask_interest_question_id_ask_question_id FOREIGN KEY (question_id) REFERENCES ask_question(id);
+ALTER TABLE ask_question ADD CONSTRAINT ask_question_user_id_ask_user_id FOREIGN KEY (user_id) REFERENCES ask_user(id);
+ALTER TABLE ask_question_tag ADD CONSTRAINT ask_question_tag_user_id_ask_user_id FOREIGN KEY (user_id) REFERENCES ask_user(id);
+ALTER TABLE ask_question_tag ADD CONSTRAINT ask_question_tag_question_id_ask_question_id FOREIGN KEY (question_id) REFERENCES ask_question(id);
+ALTER TABLE ask_relevancy ADD CONSTRAINT ask_relevancy_answer_id_ask_answer_id FOREIGN KEY (answer_id) REFERENCES ask_answer(id);
