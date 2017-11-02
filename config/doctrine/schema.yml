@@ -1,0 +1,115 @@
+User:
+  tableName: ask_user
+  actAs:
+    Timestampable:
+      created_at:
+        name: created_at
+        type: timestamp
+        format:Y-m-d H:i:s
+        options: []
+  columns:
+    id: { type: integer, primary: true, autoincrement: true }
+    nickname: { type: string(30) }
+    first_name: { type: string(50) }
+    last_name: { type: string(50) }
+    email: { type: string(100) }
+    sha1_password: { type: string(40) }
+    salt: { type: string(32) }
+
+Question:
+  tableName: ask_question
+  actAs:
+    Timestampable:
+      created_at:
+        name: created_at
+        type: timestamp
+        format:Y-m-d H:i:s
+        options: []
+      updated_at:
+        name: updated_at
+        type: timestamp
+        format: Y-m-d H:i:s
+        options: []
+  columns:
+    id: { type: integer, primary: true, autoincrement: true }
+    user_id: { type: integer }
+    title: { type: string(50) }
+    stripped_title: { type: string(50), unique: true }
+    body: { type: string }
+    html_body: { type: string }
+    interested_users: { type: integer, default: 0 }
+  relations:
+    User: { foreignAlias: Questions }
+
+Answer:
+  tableName: ask_answer
+  actAs:
+    Timestampable:
+      created_at:
+        name: created_at
+        type: timestamp
+        format:Y-m-d H:i:s
+        options: []
+  columns:
+    id: { type: integer, primary: true, autoincrement: true }
+    question_id: { type: integer }
+    user_id: { type: integer }
+    body: { type: string }
+    html_body: {type: string }
+    relevancy_up: { type: integer, default: 0 }
+    relevancy_down: { type: integer, default: 0 }
+  relations:
+    Question: { foreignAlias: Answers }
+    User: { foreignAlias: Answers }
+
+Interest:
+  tableName: ask_interest
+  actAs:
+    Timestampable:
+      created_at:
+        name: created_at
+        type: timestamp
+        format:Y-m-d H:i:s
+        options: []
+  columns:
+    question_id: { type: integer }
+    user_id: { type: integer }
+  relations:
+    Question: { foreignAlias: Interests }
+    User: { foreignAlias: Interests }
+
+Relevancy:
+  tableName: ask_relevancy
+  actAs:
+    Timestampable:
+      created_at:
+        name: created_at
+        type: timestamp
+        format:Y-m-d H:i:s
+        options: []
+  columns:
+    answer_id: { type: integer }
+    user_id: { type: integer }
+    score: { type: integer }
+  relations:
+    Answer: { foreignAlias: Relevancies }
+
+QuestionTag:
+  tableName: ask_question_tag
+  actAs:
+    Timestampable:
+      created_at:
+        name: created_at
+        type: timestamp
+        format:Y-m-d H:i:s
+        options: []
+  columns:
+    question_id: { type: integer }
+    user_id: { type: integer }
+    tag: { type: string(100) }
+    normalized_tag: { type: string(50) }
+  relations:
+    Question: { foreignAlias: QuestionTags }
+    User: { foreignAlias: QuestionTags }
+    
+   
